@@ -9,3 +9,15 @@ to handle some simple automation needs for our team.
 ## About the name
 
 Kaiser was one of the robots built by J.F. Sebastian in Blade Runner.
+
+## Required environment variables
+
+* SLACK_BOT_TOKEN
+* SLACK_SIGNING_SECRET
+
+## Local development
+
+The documentation I'm following mentions using a virtual env named venv.
+
+Personally, I'm also using ASDF to manage my local Python versions, but this may
+not be necessary for you.
