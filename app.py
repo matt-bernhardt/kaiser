@@ -1,5 +1,6 @@
 import os
 from slack_bolt import App
+from slack_bolt.adapter.socket_mode import SocketModeHandler
 
 app = App(
   token = os.environ.get("SLACK_BOT_TOKEN"),
@@ -7,4 +8,6 @@ app = App(
 )
 
 if __name__ == "__main__":
-  app.start(port=int(os.environ.get("PORT", 3000)))
+  # app.start(port=int(os.environ.get("PORT", 3000)))
+  handler = SocketModeHandler(app, os.environ["SLACK_APP_TOKEN"])
+  handler.start()
