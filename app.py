@@ -58,6 +58,17 @@ def update_home_tab(client, event, logger):
 def simple_response(say):
   say("Hi there!")
 
+@app.command("/create-puzzle")
+def create_puzzle(ack, say, command):
+  ack()
+  say(f"This would create the puzzle \"{command['text']}\".")
+
+@app.command("/solve-puzzle")
+def solve_puzzle(ack, say, respond, command):
+  ack()
+  say(f"This would mark puzzle \"{command['text']}\" as solved.")
+  respond(f"This would be seen only by the requestor.")
+
 if __name__ == "__main__":
   # app.start(port=int(os.environ.get("PORT", 3000)))
   handler = SocketModeHandler(app, os.environ["SLACK_APP_TOKEN"])
