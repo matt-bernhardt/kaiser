@@ -53,6 +53,11 @@ def update_home_tab(client, event, logger):
   except Exception as e:
     logger.error(f"Error publishing home tab: {e}")
 
+# Listener for mentions
+@app.event("app_mention")
+def simple_response(say):
+  say("Hi there!")
+
 if __name__ == "__main__":
   # app.start(port=int(os.environ.get("PORT", 3000)))
   handler = SocketModeHandler(app, os.environ["SLACK_APP_TOKEN"])
