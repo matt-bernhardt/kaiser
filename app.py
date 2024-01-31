@@ -1,7 +1,9 @@
-import os
+import os, logging
 from slack_bolt import App
 from slack_bolt.adapter.socket_mode import SocketModeHandler
 from kaiser.sheet import Sheet
+
+logging.basicConfig(level=logging.DEBUG)
 
 app = App(
   token = os.environ.get("SLACK_BOT_TOKEN"),
@@ -56,7 +58,8 @@ def update_home_tab(client, event, logger):
 
 # Listener for mentions
 @app.event("app_mention")
-def simple_response(say):
+def simple_response(say, logger):
+  logger.info("Inside simple_response")
   say("Hi there!")
 
 @app.command("/create-puzzle")
