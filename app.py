@@ -77,12 +77,6 @@ def create_puzzle(ack, say, command):
   # Announce the new channel
   say(f"New puzzle created")
 
-@app.command("/solve-puzzle")
-def solve_puzzle(ack, say, respond, command):
-  ack()
-  say(f"This would mark puzzle \"{command['text']}\" as solved.")
-  respond(f"This would be seen only by the requestor.")
-
 if __name__ == "__main__":
   # app.start(port=int(os.environ.get("PORT", 3000)))
   handler = SocketModeHandler(app, os.environ["SLACK_APP_TOKEN"])
