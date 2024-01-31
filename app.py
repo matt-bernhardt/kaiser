@@ -1,6 +1,7 @@
 import os
 from slack_bolt import App
 from slack_bolt.adapter.socket_mode import SocketModeHandler
+from kaiser.sheet import Sheet
 
 app = App(
   token = os.environ.get("SLACK_BOT_TOKEN"),
@@ -62,6 +63,19 @@ def simple_response(say):
 def create_puzzle(ack, say, command):
   ack()
   say(f"This would create the puzzle \"{command['text']}\".")
+  # Create the working sheet
+  working = Sheet()
+  working.create()
+  say(f"Working sheet defined as {working.data["worksheet_id"]}")
+  # Update the dashboard with a link to the working sheet
+  dashboard = Sheet()
+  dashboard.load(os.environ.get("SHEETS_DASHBOARD_ID"))
+  say(f"Updating dashboard at {dashboard.data["worksheet_id"]}")
+
+  # Create the Slack channel
+  # Pin a link to the sheet to the channel
+  # Announce the new channel
+  say(f"New puzzle created")
 
 @app.command("/solve-puzzle")
 def solve_puzzle(ack, say, respond, command):
