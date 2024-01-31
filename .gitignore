@@ -1,5 +1,8 @@
 # Virtual environment
 .venv
 
+# pycache
+*.pyc
+
 # Token values
 app.token
