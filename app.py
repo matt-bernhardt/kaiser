@@ -80,6 +80,28 @@ def create_puzzle(ack, say, command):
   # Announce the new channel
   say(f"New puzzle created")
 
+# Listener for the demonstration modal
+@app.shortcut("demonstrate_modal")
+def demonstrate_modal(ack, shortcut, client, logger):
+  ack()
+  client.views_open(
+    trigger_id=shortcut["trigger_id"],
+    view={
+      "type": "modal",
+      "title": {"type": "plain_text", "text": "Demonstration modal box"},
+      "close": {"type": "plain_text", "text": "Close"},
+      "blocks": [
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "This is a demonstration of a modal box invoked by a shortcut. If this were a working form, there would be input boxes and a submit button.\n\nThis is only a demonstration."
+          }
+        }
+      ]
+    }
+  )
+
 if __name__ == "__main__":
   # app.start(port=int(os.environ.get("PORT", 3000)))
   handler = SocketModeHandler(app, os.environ["SLACK_APP_TOKEN"])
