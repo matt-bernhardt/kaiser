@@ -21,3 +21,23 @@ The documentation I'm following mentions using a virtual env named venv.
 
 Personally, I'm also using ASDF to manage my local Python versions, but this may
 not be necessary for you.
+
+### ngrok
+
+We use ngrok to connect from the local development environment (your computer)
+to the greater internet.
+
+```bash
+$ ngrok http 3000
+```
+
+### local python application
+
+With ngrok underway, you can start the virtual environment and run the app.
+
+```bash
+$ source ./venv/bin/activate
+(.vent)$ python3 app.py
+```
+
+Certain code changes may need you to restart the application.
