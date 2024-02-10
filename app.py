@@ -2,6 +2,7 @@ import os, logging
 from slack_bolt import App
 from slack_bolt.adapter.socket_mode import SocketModeHandler
 from kaiser.sheet import Sheet
+from kaiser.puzzle import Puzzle
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -63,9 +64,14 @@ def simple_response(say, logger):
   say("Hi there!")
 
 @app.command("/create-puzzle")
-def create_puzzle(ack, say, command):
+def create_puzzle(ack, client, logger, say, command):
   ack()
   say(f"This would create the puzzle \"{command['text']}\".")
+  # Create the Puzzle object, through which the Slack channel and Google sheet
+  # will be created.
+  draft = Puzzle()
+  draft.create(client, logger, say, command['text'])
+  # Everything after this is subject to deletion...
   # Create the working sheet
   working = Sheet()
   working.create()
@@ -79,6 +85,13 @@ def create_puzzle(ack, say, command):
   # Pin a link to the sheet to the channel
   # Announce the new channel
   say(f"New puzzle created")
+
+@app.command("/solve-puzzle")
+def solve_puzzle(ack, client, logger, say, command):
+  ack()
+  say(f"This will solve the puzzle \"{command['text']}\".")
+  target = Puzzle()
+  target.solve(client, logger, say, command['text'])
 
 # Listener for the demonstration modal
 @app.shortcut("demonstrate_modal")
