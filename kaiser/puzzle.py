@@ -19,17 +19,19 @@ class Puzzle():
       logger.info(result)
       say(f"The channel #{channel_name} has been created!")
     except Exception as e:
-      logger.error("Error creating channel: {}".format(e))
-      say(f"I tried to create the channel #{channel_name}. Unfortunately, I failed.")
+      self.error(logger, say, "creating channel", e)
+
+  def error(self, logger, say, context, message):
+    logger.error(f"Error {context}: {format(message)}")
+    say(f":no_entry: *Error {context}:* {format(message)}")
 
   def list(self, say, client, logger):
+    result = []
     try:
       result = client.conversations_list()
-      return result["channels"]
     except Exception as e:
-      logger.error("Error listing channels: {}".format(e))
-      say(f"I tried to list all channels. Unfortunately, I failed.")
-      return []
+      self.error(logger, say, "listing channels", e)
+    return result
 
   def lookup(self, client, logger, say, puzzle_name):
     channel_id = ""
@@ -39,8 +41,7 @@ class Puzzle():
         if channel["name"] == self.set_channel_name(puzzle_name):
           channel_id = channel["id"]
     except Exception as e:
-      logger.error("Error looking up channel: {}".format(e))
-      say(f"I tried to look up information about the channel. Unfortunately, I failed.")
+      self.error(logger, say, "looking up channel", e)
     return channel_id
 
   def set_channel_name(self, puzzle_name):
@@ -59,5 +60,4 @@ class Puzzle():
       )
       say(f"Channel for puzzle \"{puzzle_name}\" has been renamed.")
     except Exception as e:
-      logger.error("Error renaming channel: {}".format(e))
-      say(f"I tried to rename the channel. Unfortunately, I failed.")
+      self.error(logger, say, "renaming channel", e)
